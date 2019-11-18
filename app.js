@@ -49,8 +49,6 @@ async function getQuestions(filePath) {
     }
   });
 
-  console.log('colKey: ', colKey);
-  console.log('data: ', data);
   return data;
 }
 
