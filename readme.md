@@ -9,9 +9,10 @@
 1. [安装 node](https://nodejs.org/en/download/)
 2. 下载代码（以下方式二选一）
    1. 如果有 git，使用 `git clone https://github.com/gaochengyidlmu/anki_generator.git`
-   2. 直接在本页面下载代码
+   2. 直接在本页面下载代码 ![下载](assets/download.png)
 3. 进入代码文件夹中，将 excel 文件移入文件夹
 4. 执行 `node app.js 文件名`，例如 `node app.js example.xlsx`
+5. 在本文件夹，能够查看到对应文件名的 csv 文件
 
 ### excel 模版
 
