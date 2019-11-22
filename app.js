@@ -39,7 +39,7 @@ async function getQuestions(filePath) {
           });
           datum[key] = datum[key]
             .filter(i => i)
-            .map(i => i.trim())
+            .map(i => i.toString().trim())
             .join('***');
         } else {
           datum[key] = (row.getCell(index).value || '').trim();
@@ -60,7 +60,7 @@ async function generator(data, filePath) {
   });
 
   const filename = path.basename(filePath, path.extname(filePath));
-  await workbook.csv.writeFile(path.resolve(__dirname, `./${filename}.csv`));
+  await workbook.csv.writeFile(path.resolve(path.dirname(filePath), `./${filename}.csv`));
 }
 
 async function run() {
