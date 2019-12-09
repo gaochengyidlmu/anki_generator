@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "name": "anki_generaotr",
+      "script": "/www/anki_generaotr/server.js",
+      "cwd": "/www/anki_generaotr",
+      "instances": 1,
+      "exec_mode": "cluster_mode",
+      "max_memory_restart": "200M",
+      "max_restarts": 40,
+      "watch": false,
+      "error_file": "./logs/pm2.error.log",
+      "out_file": "./logs/pm2.log"
+    }
+  ]
+}
