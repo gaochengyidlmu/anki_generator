@@ -10,21 +10,20 @@
     <p>Last name: <input type="text" name="lname" /></p> -->
   <form>
     <input type="file" id="file" name="file">
-    <button type="button">保存并下载</button>
+    <button type="button" id="upload">上传并下载</button>
   </form>
-  <!-- <div>File: <input type="file" name="avatar" onchange="" /><span id='upload' style="border: 1px solid">确认上传</span> -->
-  </div>
+
+  <button type="button" id="example">下载模版</button>
 
   <script>
-    $('button').click(function () {
-      var files = $('#file').prop('files');
-      console.log('files: ', files)
+    $('#upload').click(function () {
+      const files = $('#file').prop('files');
       if (!files.length) {
         alert('必须选中文件');
         return;
       }
 
-      var data = new FormData();
+      const data = new FormData();
       data.append('file', files[0]);
 
       $.ajax({
@@ -44,6 +43,10 @@
         }
       });
     });
+
+    $('#example').click(function () {
+      window.location.href = '/api/download/example.xlsx';
+    })
   </script>
 </body>
 

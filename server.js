@@ -11,6 +11,8 @@ const generatorCSV = require('./app.js');
 const app = new Koa();
 const router = new Router();
 
+router.get('/', ctx => ctx.redirect('/index'));
+
 router.get('/index', async ctx => {
   console.log('获取 index 页面');
   const res = await readFile('./views/index.html', 'utf8');
@@ -72,6 +74,9 @@ router.get('/api/download/:name', async ctx => {
   ctx.attachment(path);
   await send(ctx, path);
   setTimeout(() => {
+    const filename = path.basename(path);
+    // 如果是范例，则不删除文件，其它的下载完成后，删除文件
+    if (filename === 'example.js') return;
     fs.unlink(path, () => {
       console.log('文件' + path + ': 移除成功');
     });
@@ -81,4 +86,4 @@ router.get('/api/download/:name', async ctx => {
 app.use(router.routes());
 
 const PORT = 6700;
-app.listen(PORT, () => console.log('port on ' + PORT));
+app.listen(PORT, () => console.log('port on http://localhost:' + PORT));
