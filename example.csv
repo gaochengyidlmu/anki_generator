@@ -1,13 +1,2 @@
-跨主机情况下，一般使用什么通信方式,UDP***TCP***socket file,B,mysql -h host -P port -u user -p psword
-什么情况下可以使用 socket file 方式通信,Unix 主机，服务器进程和客户端进程都在同一台主机***同一台主机,A,
-以下属于查询请求流程的是,连接管理***解析与优化***域名解析***存储引擎,ABD,
-解析与优化中的内容是,查询缓存***语法解析***查询优化***处理连接,ABC,
-客户端退出连接时，是否会一定会将线程销毁,是***否,B,
-下面语句无法缓存的是,SELECT NOW()***SELECT * FROM user;,A,某些系统函数如 now，无法进行系统缓存
-查询缓存在什么情况下会过期,定时过期***表数据有修改过期,B,INSERT UPDATE DELETE TRUNCATE ALTER DROP 将导致表数据缓存过期
-现在是否推荐采用查询缓存,是***否,B,缓存有开销，8.0 后移除查询缓存
-存储引擎负责的内容,磁盘中记录行信息***从表中读取数据***语法解析***将数据写入具体的物理存储引擎,ABD,
-MySQL server 的功能,连接管理***查询缓存***语法解析***查询优化,ABCD,各种不同的存储引擎向上面的 MySQL server 层提供统一的调用接口
-常用的存储引擎，其描述正确的是,CSV-存储数据时用逗号分隔***InnoDB-具备外键支持功能的事务存储引擎***MEMORY-内存中的表***MyISAM-非事务存储引擎,ABCD,
-支持事务与回滚的数据库是,MEMORY***InnoDB***MyISAM***ARCHIVE,B,
-创建表时，设置存储引擎的语句是,CREATE TABLE table_name () ENGINE=engine_name;,A,
+1cache-control:max-age=0,作用: 控制浏览器的缓存，常见值为 private no-cache***还有什么用处,A,哈哈，测试1
+2cache-control:max-age=0,作用: 控制浏览器的缓存，常见值为 private no-cache***还有什么用处,A,哈哈，测试2

@@ -9,7 +9,10 @@
   "author": "高承毅",
   "license": "ISC",
   "dependencies": {
-    "exceljs": "^3.4.0"
+    "busboy": "^0.3.1",
+    "exceljs": "^3.4.0",
+    "koa": "^2.11.0",
+    "koa-router": "^7.4.0"
   },
   "config": {
     "commitizen": {
@@ -17,6 +20,8 @@
     }
   },
   "devDependencies": {
-    "baiji-cz-rule": "0.0.5"
+    "baiji-cz-rule": "0.0.5",
+    "eslint": "^5.16.0",
+    "eslint-config-umi": "^1.6.0"
   }
 }

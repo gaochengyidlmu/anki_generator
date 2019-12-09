@@ -1,0 +1,7 @@
+{
+  "git.ignoreLimitWarning": true,
+
+  "editor.formatOnSave": true, // 保存时，使用自带的格式化工具进行格式化
+  "eslint.autoFixOnSave": false,
+  "maven.view": "hierarchical" // 移除 eslint 的自动格式化
+}

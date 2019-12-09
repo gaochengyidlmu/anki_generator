@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+  <!-- <p>First name: <input type="text" name="fname" /></p>
+    <p>Last name: <input type="text" name="lname" /></p> -->
+  <div>File: <input type="file" name="avatar" onchange="" /><span id='upload' style="border: 1px solid">确认上传</span></div>
+
+  <script>
+    const uploadEle = document.getElementById('upload');
+    uploadEle.onclick = function () {
+      console.log('点击了 upload 按钮');
+      fetch('/upload')
+    }
+  </script>
+</body>
+
+</html>
