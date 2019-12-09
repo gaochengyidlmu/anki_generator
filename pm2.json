@@ -1,9 +1,9 @@
 {
   "apps": [
     {
-      "name": "anki_generaotr",
-      "script": "/www/anki_generaotr/server.js",
-      "cwd": "/www/anki_generaotr",
+      "name": "anki_generator",
+      "script": "/www/anki_generator/server.js",
+      "cwd": "/www/anki_generator",
       "instances": 1,
       "exec_mode": "cluster_mode",
       "max_memory_restart": "200M",
