@@ -51,7 +51,7 @@ class TranslateAnkiByExcel extends TranslateAnki {
               .map(i => i.toString().trim())
               .join('***');
           } else {
-            datum[key] = (row.getCell(index).value || '').trim();
+            datum[key] = (row.getCell(index).value || '').toString().trim();
           }
         }
         data.push(datum);
