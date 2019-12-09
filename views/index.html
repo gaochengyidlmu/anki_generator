@@ -1,18 +1,49 @@
 <!DOCTYPE html>
-
 <html>
+
+<head>
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+</head>
 
 <body>
   <!-- <p>First name: <input type="text" name="fname" /></p>
     <p>Last name: <input type="text" name="lname" /></p> -->
-  <div>File: <input type="file" name="avatar" onchange="" /><span id='upload' style="border: 1px solid">确认上传</span></div>
+  <form>
+    <input type="file" id="file" name="file">
+    <button type="button">保存并下载</button>
+  </form>
+  <!-- <div>File: <input type="file" name="avatar" onchange="" /><span id='upload' style="border: 1px solid">确认上传</span> -->
+  </div>
 
   <script>
-    const uploadEle = document.getElementById('upload');
-    uploadEle.onclick = function () {
-      console.log('点击了 upload 按钮');
-      fetch('/upload')
-    }
+    $('button').click(function () {
+      var files = $('#file').prop('files');
+      console.log('files: ', files)
+      if (!files.length) {
+        alert('必须选中文件');
+        return;
+      }
+
+      var data = new FormData();
+      data.append('file', files[0]);
+
+      $.ajax({
+        url: '/api/upload',
+        type: 'POST',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+          console.log(res);
+          if (res.code !== 1) {
+            alert(res.message);
+            return;
+          }
+          window.location.href = '/api/download/' + res.filePath;
+        }
+      });
+    });
   </script>
 </body>
 

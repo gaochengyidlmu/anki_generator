@@ -57,7 +57,9 @@ class TranslateAnki {
     });
 
     const filename = path.basename(this.filePath, path.extname(this.filePath));
-    await workbook.csv.writeFile(path.resolve(path.dirname(this.filePath), `./${filename}.csv`));
+    const csvFilePath = path.resolve(path.dirname(this.filePath), `./${filename}.csv`);
+    await workbook.csv.writeFile(csvFilePath);
+    return csvFilePath;
   }
 }
 

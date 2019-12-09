@@ -15,7 +15,7 @@ function upload(ctx) {
       file.on('end', function() {
         console.log(`File [${fieldname}] Finished`);
         ctx.req.file = {
-          filepath: destPath,
+          filePath: destPath,
           filename: filename,
         };
       });

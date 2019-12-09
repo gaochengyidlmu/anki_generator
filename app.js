@@ -25,19 +25,25 @@ function factory(filePath) {
   return translate;
 }
 
-async function run() {
-  const translate = factory(process.argv[2]);
+const filePath = process.argv[2];
+
+async function run(filePath) {
+  const translate = factory(filePath);
   const data = await translate.getData();
-  await translate.write(data);
+  return await translate.write(data);
 }
 
-run()
-  .then(() => {
-    console.log('文件生成完毕，请在当前目录检查生成的 csv 文件');
-    process.exit();
-  })
-  .catch(e => {
-    console.error(color(e.message, 'red'));
-    console.log(e);
-    process.exit();
-  });
+if (filePath) {
+  run(filePath)
+    .then(() => {
+      console.log('文件生成完毕，请在当前目录检查生成的 csv 文件');
+      process.exit();
+    })
+    .catch(e => {
+      console.error(color(e.message, 'red'));
+      console.log(e);
+      process.exit();
+    });
+}
+
+module.exports = run;
