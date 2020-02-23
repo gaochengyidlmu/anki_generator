@@ -11,9 +11,14 @@ const generatorCSV = require('./app.js');
 
 const app = new Koa();
 const router = new Router();
+const isProduction = process.env.NODE_ENV === 'production';
+
+// nginx 二级子目录
+const subPath = isProduction ? '/anki_generator/' : '/';
 
 router.get('/', ctx => {
-  ctx.redirect(path.join(ctx.path, '/index'));
+  const redirectPath = path.join(subPath, '/index');
+  ctx.redirect(redirectPath);
 });
 
 router.get('/index', async ctx => {

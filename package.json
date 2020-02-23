@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development node server.js",
+    "production": "NODE_ENV=production node server.js"
   },
   "author": "高承毅",
   "license": "ISC",
