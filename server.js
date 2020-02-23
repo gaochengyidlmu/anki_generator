@@ -12,7 +12,9 @@ const generatorCSV = require('./app.js');
 const app = new Koa();
 const router = new Router();
 
-router.get('/', ctx => ctx.redirect('/index'));
+router.get('/', ctx => {
+  ctx.redirect(path.join(ctx.path, '/index'));
+});
 
 router.get('/index', async ctx => {
   console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ': 获取 index 页面');
