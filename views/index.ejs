@@ -15,7 +15,6 @@
   </form>
 
   <button type="button" id="example">下载模版</button>
-
   <script>
     $('#upload').click(function () {
       const files = $('#file').prop('files');
@@ -28,7 +27,7 @@
       data.append('file', files[0]);
 
       $.ajax({
-        url: '/api/upload',
+        url: '<%= subPath %>api/upload',
         type: 'POST',
         data: data,
         cache: false,
@@ -40,13 +39,13 @@
             alert(res.message);
             return;
           }
-          window.location.href = '/api/download/' + res.filePath;
+          window.location.href = '<%= subPath %>api/download/' + res.filePath;
         }
       });
     });
 
     $('#example').click(function () {
-      window.location.href = '/api/download/example.xlsx';
+      window.location.href = '<%= subPath %>api/download/example.xlsx';
     })
   </script>
 </body>
