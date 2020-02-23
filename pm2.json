@@ -10,7 +10,10 @@
       "max_restarts": 40,
       "watch": false,
       "error_file": "./logs/pm2.error.log",
-      "out_file": "./logs/pm2.log"
+      "out_file": "./logs/pm2.log",
+      "env": {
+        "NODE_ENV": "producton"
+      }
     }
   ]
 }
