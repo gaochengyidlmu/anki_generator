@@ -12,7 +12,7 @@
       "error_file": "./logs/pm2.error.log",
       "out_file": "./logs/pm2.log",
       "env": {
-        "NODE_ENV": "producton"
+        "NODE_ENV": "production"
       }
     }
   ]
