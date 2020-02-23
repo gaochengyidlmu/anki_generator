@@ -2,8 +2,8 @@
   "apps": [
     {
       "name": "anki_generator",
-      "script": "/www/anki_generator/server.js",
-      "cwd": "/www/anki_generator",
+      "script": "/var/lib/jenkins/workspace/anki_generator/server.js",
+      "cwd": "/var/lib/jenkins/workspace/anki_generator",
       "instances": 1,
       "exec_mode": "cluster_mode",
       "max_memory_restart": "200M",
