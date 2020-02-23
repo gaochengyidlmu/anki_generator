@@ -5,6 +5,7 @@ const util = require('util');
 const readFile = util.promisify(fs.readFile);
 const koaBody = require('koa-body');
 const send = require('koa-send');
+const moment = require('moment');
 const path = require('path');
 const generatorCSV = require('./app.js');
 
@@ -14,7 +15,7 @@ const router = new Router();
 router.get('/', ctx => ctx.redirect('/index'));
 
 router.get('/index', async ctx => {
-  console.log('获取 index 页面');
+  console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ': 获取 index 页面');
   const res = await readFile('./views/index.html', 'utf8');
   ctx.body = res;
 });
