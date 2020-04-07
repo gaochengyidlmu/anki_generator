@@ -17,20 +17,17 @@ class TranslateAnkiByMd extends TranslateAnki {
    */
   async getData() {
     const file = fs.readFileSync(this.filePath, 'utf8');
-    console.log('file: ', file);
     const QAList = file.split(/@+/);
-    console.log('QAList: ', QAList);
-    const data = QAList.map(QA => {
+    const data = QAList.map((QA) => {
       // 对 QA 字符串做处理，转化为字符数组
       QA = QA.split('\n')
-        .map(i => i.trim())
-        .filter(i => {
+        .map((i) => i.trim())
+        .filter((i) => {
           if (!i) return false;
           if (i.startsWith('#')) return false;
           return true;
         });
 
-      console.log('QA: ', QA);
       const colKey = {
         question: 0,
         options: [],
@@ -49,7 +46,6 @@ class TranslateAnkiByMd extends TranslateAnki {
       for (let i = colKey.question + 1; i < colKey.answer; i++) {
         colKey.options.push(i);
       }
-      console.log('colKey: ', colKey);
 
       const datum = {};
 
@@ -57,12 +53,12 @@ class TranslateAnkiByMd extends TranslateAnki {
         const index = colKey[key];
         if (Array.isArray(index)) {
           datum[key] = [];
-          index.forEach(i => {
+          index.forEach((i) => {
             datum[key].push(QA[i]);
           });
           datum[key] = datum[key]
-            .filter(i => i)
-            .map(i => i.toString().trim())
+            .filter((i) => i)
+            .map((i) => i.toString().trim())
             .join('***');
         } else {
           datum[key] = (QA[index] || '').trim();
@@ -70,8 +66,7 @@ class TranslateAnkiByMd extends TranslateAnki {
       }
       return datum;
     });
-    console.log('data: ', data);
-    return data;
+    return [{ data, name: 'anki' }];
   }
 }
 

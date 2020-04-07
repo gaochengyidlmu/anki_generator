@@ -35,11 +35,12 @@ async function run(filePath) {
 
 if (filePath) {
   run(filePath)
-    .then(() => {
+    .then((paths) => {
+      console.log('paths', paths);
       console.log('文件生成完毕，请在当前目录检查生成的 csv 文件');
       process.exit();
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(color(e.message, 'red'));
       console.log(e);
       process.exit();

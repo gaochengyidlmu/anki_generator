@@ -50,16 +50,23 @@ class TranslateAnki {
    * @memberof TranslateAnki
    */
   async write(data) {
-    const workbook = new Excel.Workbook();
-    const worksheet = workbook.addWorksheet('anki');
-    data.forEach(datum => {
-      worksheet.addRow(Object.values(datum));
-    });
+    if (!data.length) throw new Error('无数据');
+    let dataArr = data;
 
-    const filename = path.basename(this.filePath, path.extname(this.filePath));
-    const csvFilePath = path.resolve(path.dirname(this.filePath), `./${filename}.csv`);
-    await workbook.csv.writeFile(csvFilePath);
-    return csvFilePath;
+    const filePaths = [];
+    for (const { data, name } of dataArr) {
+      const workbook = new Excel.Workbook();
+      const worksheet = workbook.addWorksheet(name);
+      data.forEach((datum) => {
+        worksheet.addRow(Object.values(datum));
+      });
+
+      const csvFilePath = path.resolve(path.dirname(this.filePath), `./${name}.csv`);
+      await workbook.csv.writeFile(csvFilePath);
+      filePaths.push(csvFilePath);
+    }
+
+    return filePaths;
   }
 }
 
