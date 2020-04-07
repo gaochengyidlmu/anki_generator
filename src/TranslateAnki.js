@@ -54,13 +54,14 @@ class TranslateAnki {
     let dataArr = data;
 
     const filePaths = [];
-    for (const { data, name } of dataArr) {
+    for (let { data, name } of dataArr) {
       const workbook = new Excel.Workbook();
       const worksheet = workbook.addWorksheet(name);
       data.forEach((datum) => {
         worksheet.addRow(Object.values(datum));
       });
 
+      name = name + '_' + new Date().valueOf();
       const csvFilePath = path.resolve(path.dirname(this.filePath), `./${name}.csv`);
       await workbook.csv.writeFile(csvFilePath);
       filePaths.push(csvFilePath);
