@@ -1,0 +1,64 @@
+所有发出事件的对象都是 EventEmitter  的实例,正确***错误,A,1
+当 EventEmitter 对象发出事件时，事件上绑定的函数都会被同步执行。这些函数的返回值都会被无视并丢弃掉。,正确***错误,A,2
+Event 发射事件的方法是,myEmitter.emit***myEmitter.on,A,3
+Event  监听事件的方法是,myEmitter.emit***myEmitter.on,B,4
+Event on 绑定的监听函数中，如果监听函数是普通 function ，this 是哪个对象,EventEmitter  实例***global***空对象,A,5
+Event on 绑定的监听函数中，如果监听函数是箭头 function ，this 是哪个对象,EventEmitter  实例***global***空对象,C,6
+EventEmitter  默认都是根据绑定顺序，来同步执行监听函数。,正确***错误,A,7
+Event 的监听函数可以使用 setImmediate 或 process.nextick 来变成异步执行的,正确***错误,A,8
+Event 如果只需要监听一次事件，使用什么方法,event.on()***event.once(),B,9
+当 EventEmitter  对 error 事件没有注册监听方法时，如果 event 实例发生了 error 事件会怎么样,打印 error stack***啥也不发生***退出 node 进程,AC,10
+作为最佳实践，event 必须总是给 error 事件添加监听函数,正确,A,11
+EventEmitter class 是 events 模块默认抛出的对象,正确,A,12
+添加 Listener 时，EventEmitter 发出什么事件,newListener***removeListener,A,13
+移除 Listener 时，EventEmitter 发出什么事件,newListener***removeListener,B,14
+EventEmitter newListener 事件，传递的是什么参数,事件名 eventName***listener 的引用,AB,15
+EventEmitter newListener  事件的触发时机,添加事件之前***添加事件之后,A,16
+如果添加监听 event 事件1时，触发了 newListener  事件，在 newListener 的回调中添加同名事件的监听事件2，会优先执行哪个事件,2 => 1***1 => 2,A,17
+Event 中同一事件默认最多的监听事件数是（通过 EventEmitter.defaultMaxListeners 获取）,8***10***50,B,18
+EventEmitter  实例可以通过 getMaxListeners() 获取当前实例的最大监听数。EventEmitter.defaultMaxListeners 可以直接修改，修改后会作用到所有的实例，包括已创建的,正确,A,19
+EventEmitter  实例可以通过 setMaxListeners(n) 来修改当前实例的最大监听数,正确,A,20
+"emitter.addListener(eventName, listener) alias emitter.on，添加监听器",正确,A,21
+"emitter.emit(eventName[, …args]) 发射事件，按照注册顺序，同步调用每一个监听器，将提供的参数传递给每一个监听器",正确,A,22
+emitter.eventNames() 返回一个数组，包含这个 emitter 中监听的所有事件名,正确,A,23
+emitter.listenerCount(eventName) 获取对应事件的监听数,正确,A,24
+emitter.listeners(eventName) 返回监听器的数组,正确,A,25
+"emitter.off(eventName, listener) alias emitter.removeListener()",正确,A,26
+"emitter.on(eventName, listener) 在事件监听器数组的尾部添加监听器，返回一个 emitter ，可用于链式调用",正确,A,27
+"emitter.prependListener(eventName, listener) 在事件监听器数组的头部添加监听器",正确,A,28
+emitter.removeAllListeners([eventName]) 移除所有的监听器或者指定事件的监听器,正确,A,29
+"emitter.removeListener(eventName, listener) 移除指定的监听器，可以通过 listeners() 获取所有的监听器。removeListener 只能移除一个监听器一次，如果监听器重复监听，则需要移除多次。",正确,A,30
+当事件触发时，执行 removeListener，并不会影响正在运行的 emit()，之后的事件触发按照预期执行,正确,A,31
+removeListener 对多次监听的监听器，会移除最近一次插入的监听器,正确,A,32
+emitter.rawListener(eventName) 返回 listeners 的数组拷贝,正确,A,33
+"events.once(emitter, name) 是 events.once 的方法，对某个指定的 emitter 的事件进行监听，并且返回一个 promise",正确,A,34
+有哪几种 stream 类别,Writable***Readable***Duplex 双工流***Transform,ABCD,35
+大部分 stream 的都是基于 string buffer Uint8Array  进行操作,正确,A,36
+可以实现 stream 基于 object 进行操作,正确,A,37
+Writable 和 Readable 会在内部的 buffer 中保存数据，可以通过 Writable.writableBuffer 或者 Readable.readableBuffer 取出数据,正确,A,38
+在 stream 创建时的 highWaterMark 决定了 data 的总数，普通流 highWaterMark 是字节数，对于 object 的流，highWaterMark 是 objects 的总数,正确,A,39
+调用 stream.push(chunk) 时，数据存储在 Readable 流的 buffer 中。,正确,A,40
+Writable.write() 与 highWaterMark 的关系,当buffer 未达到 highWaterMark的限制时，write() 返回 true***达到限制时，返回 false,AB,41
+stream 的设计目的是，为了限制数据的缓存数量，防止占用过多内存,正确,A,42
+stream.Writable close 事件，当流或者底层数据源被关闭时，发出 close 事件，之后不会有其它事件或计算发生了,正确,A,43
+stream.Writable drain  事件，当可以继续写入数据时，触发,正确,A,44
+stream.Writable error 事件，error 发出时，不会关闭 stream，但之后除了 close 事件，其它事件都不会发出了,正确,A,45
+stream.Writable finish  事件，stream.end() 方法调用后，触发 finish 事件，所有的数据都会刷新,正确,A,46
+stream.Writable pipe 事件，stream.pipe() 方法调用时，触发 pipe 事件，传递参数 src 也就是 readable 流,正确,A,47
+writable.cork() 强迫所有的写入数据都缓存在内存。避免大量小数据存入 buffer 时，产生性能影响。,正确,A,48
+writable.uncork() 刷新所有调用 cork() 之后的数据，uncork 与 cork 需要调用相同的次数,正确,A,49
+writable.destroy() 立刻摧毁一个 stream，之后对 writable 的 write() end() 调用都会报错。,正确,A,50
+writable.destroyed  调用 destroy() 后，is true,正确,A,51
+"writable.end([chunk[, encoding]][, callback]) 表明没有更多的数据被写入到 Writable",正确,A,52
+writable.setDefaultEncoding(encoding) 配置默认的编码方式,正确,A,53
+writable.writable 当可以调用write() 时，为 true,正确,A,54
+writable.writableEnded 当 end() 调用后，为 true,正确,A,55
+writable.writableCorked  返回需要调用 writable.uncork() 的次数,正确,A,56
+writable.writableFinished 当 finish 事件触发时，设置为 true,正确,A,57
+writable.writableHighWaterMark 构建 Writable 时，highWaterMark 的值,正确,A,58
+wirtable.writableLength 返回队列中准备写入的数据 byte 数,正确,A,59
+writable.writableObjectMode 查看 stream 是不是 objectMode stream,正确,A,60
+"writable.write(chunk[, encoding][, callback]) 当 write() 返回 false 时，会暂停继续写入数据，直到 drain 事件触发",正确,A,61
+在终止系统写，不停写入不读取数据的可写流，会导致内存的高占用和垃圾回收性能下降,正确,A,62
+object mode 的 stream 会无视掉 encoding 参数,正确,A,63
+Transform流是什么 转换流,特殊的 Duplex 流，继承自 Duplex，其内部能够变更正在传输的数据,A,64
