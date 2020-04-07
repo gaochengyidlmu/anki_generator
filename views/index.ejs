@@ -12,6 +12,7 @@
   <form>
     <input type="file" id="file" name="file">
     <button type="button" id="upload">上传并下载</button>
+    <span style="font-size:12px;">支持单个 excel 文件中包含多个 sheet，会自动对应 sheet 文件，下载多个 csv 文件</span>
   </form>
 
   <button type="button" id="example">下载模版</button>
@@ -39,7 +40,18 @@
             alert(res.message);
             return;
           }
-          window.location.href = '<%= subPath %>api/download/' + res.filePath;
+          for (const filePath of res.filePaths) {
+            const url = '<%= subPath %>api/download/' + filePath;
+            const iframe = document.createElement("iframe");
+            iframe.style.display = "none"; // 防止影响页面
+            iframe.style.height = 0; // 防止影响页面
+            iframe.src = url;
+            document.body.appendChild(iframe); // 这一行必须，iframe挂在到dom树上才会发请求
+            // 5分钟之后删除（onload方法对于下载链接不起作用，就先抠脚一下吧）
+            setTimeout(() => {
+              iframe.remove();
+            }, 5 * 60 * 1000);
+          }
         }
       });
     });

@@ -24,12 +24,12 @@ const isProduction = process.env.NODE_ENV === 'production';
 // nginx 二级子目录
 const subPath = isProduction ? '/anki_generator/' : '/';
 
-router.get('/', ctx => {
+router.get('/', (ctx) => {
   const redirectPath = path.join(subPath, '/index');
   ctx.redirect(redirectPath);
 });
 
-router.get('/index', async ctx => {
+router.get('/index', async (ctx) => {
   console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ': 获取 index 页面');
   await ctx.render('index.ejs', {
     subPath,
@@ -58,7 +58,7 @@ app.use(
   }),
 );
 
-router.post('/api/upload', async ctx => {
+router.post('/api/upload', async (ctx) => {
   const files = ctx.request.files;
   if (!files || !files.file) {
     return (ctx.body = {
@@ -67,9 +67,9 @@ router.post('/api/upload', async ctx => {
     });
   }
   const filePath = files.file.path;
-  let csvFilePath;
+  let csvFilePaths;
   try {
-    csvFilePath = await generatorCSV(filePath);
+    csvFilePaths = await generatorCSV(filePath);
   } catch (err) {
     return (ctx.body = {
       code: 2,
@@ -77,14 +77,16 @@ router.post('/api/upload', async ctx => {
     });
   }
   // fs.unlinkSync(filePath);
+  const filePaths = csvFilePaths.map((filePath) => path.basename(filePath));
+  console.log('filePaths: ', filePaths);
   ctx.body = {
     code: 1,
     message: '上传成功',
-    filePath: path.basename(csvFilePath),
+    filePaths,
   };
 });
 
-router.get('/api/download/:name', async ctx => {
+router.get('/api/download/:name', async (ctx) => {
   const name = ctx.params.name;
   const filePath = `upload/${name}`;
   ctx.attachment(filePath);
