@@ -8,6 +8,7 @@ const send = require('koa-send');
 const moment = require('moment');
 const path = require('path');
 const generatorCSV = require('./app.js');
+const csvToVcard = require('./src/csvToVcard');
 const views = require('koa-views');
 
 const app = new Koa();
@@ -24,12 +25,12 @@ const isProduction = process.env.NODE_ENV === 'production';
 // nginx 二级子目录
 const subPath = isProduction ? '/anki_generator/' : '/';
 
-router.get('/', (ctx) => {
+router.get('/', ctx => {
   const redirectPath = path.join(subPath, '/index');
   ctx.redirect(redirectPath);
 });
 
-router.get('/index', async (ctx) => {
+router.get('/index', async ctx => {
   console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ': 获取 index 页面');
   await ctx.render('index.ejs', {
     subPath,
@@ -58,7 +59,7 @@ app.use(
   }),
 );
 
-router.post('/api/upload', async (ctx) => {
+router.post('/api/upload', async ctx => {
   const files = ctx.request.files;
   if (!files || !files.file) {
     return (ctx.body = {
@@ -71,14 +72,14 @@ router.post('/api/upload', async (ctx) => {
   try {
     csvFilePaths = await generatorCSV(filePath);
   } catch (err) {
+    console.log(err.message);
     return (ctx.body = {
       code: 2,
       message: 'CSV 生成失败，请联系作者：gaochengyidlmu@163.com\n' + err.message,
     });
   }
   // fs.unlinkSync(filePath);
-  const filePaths = csvFilePaths.map((filePath) => path.basename(filePath));
-  console.log('filePaths: ', filePaths);
+  const filePaths = csvFilePaths.map(filePath => path.basename(filePath));
   ctx.body = {
     code: 1,
     message: '上传成功',
@@ -86,7 +87,35 @@ router.post('/api/upload', async (ctx) => {
   };
 });
 
-router.get('/api/download/:name', async (ctx) => {
+// 上传 vcard 文件
+router.post('/api/upload_vcard', async ctx => {
+  const files = ctx.request.files;
+  if (!files || !files.file) {
+    return (ctx.body = {
+      code: 2,
+      message: '上传失败',
+    });
+  }
+  const filePath = files.file.path;
+  let csvFilePath;
+  try {
+    csvFilePath = await csvToVcard(filePath);
+  } catch (err) {
+    return (ctx.body = {
+      code: 2,
+      message: 'CSV 生成失败，请联系作者：gaochengyidlmu@163.com\n' + err.message,
+    });
+  }
+  // fs.unlinkSync(filePath);
+  const filePaths = [csvFilePath].map(filePath => path.basename(filePath));
+  ctx.body = {
+    code: 1,
+    message: '上传成功',
+    filePaths,
+  };
+});
+
+router.get('/api/download/:name', async ctx => {
   const name = ctx.params.name;
   const filePath = `upload/${name}`;
   ctx.attachment(filePath);
@@ -94,7 +123,7 @@ router.get('/api/download/:name', async (ctx) => {
   setTimeout(() => {
     const filename = path.basename(filePath);
     // 如果是范例，则不删除文件，其它的下载完成后，删除文件
-    if (filename === 'example.xlsx') return;
+    if (['example.xlsx', 'example_vcard.xlsx'].includes(filename)) return;
     fs.unlink(filePath, () => {
       console.log('文件' + filePath + ': 移除成功');
     });

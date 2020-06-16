@@ -7,8 +7,8 @@
 </head>
 
 <body>
-  <!-- <p>First name: <input type="text" name="fname" /></p>
-    <p>Last name: <input type="text" name="lname" /></p> -->
+  <div>根据给定的 excel 格式文件，自动生成对应的 csv 文件。<a href="https://zhuanlan.zhihu.com/p/77627743">详情</a></div>
+  <br>
   <form>
     <input type="file" id="file" name="file">
     <button type="button" id="upload">上传并下载</button>
@@ -58,6 +58,62 @@
 
     $('#example').click(function () {
       window.location.href = '<%= subPath %>api/download/example.xlsx';
+    })
+  </script>
+
+
+  <br><br><br><br><br><br>
+
+  <div>根据给定的 excel 格式文件，自动生成对应的 vCard 文件，用于导入通讯录。</div>
+  <br>
+  <form>
+    <input type="file" id="file_vcard" name="file_vcard">
+    <button type="button" id="upload_vcard">上传并下载</button>
+  </form>
+
+  <button type="button" id="example_vcard">下载模版</button>
+  <script>
+    $('#upload_vcard').click(function () {
+      const files = $('#file_vcard').prop('files');
+      if (!files.length) {
+        alert('必须选中文件');
+        return;
+      }
+
+      const data = new FormData();
+      data.append('file', files[0]);
+
+      $.ajax({
+        url: '<%= subPath %>api/upload_vcard',
+        type: 'POST',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+          console.log(res);
+          if (res.code !== 1) {
+            alert(res.message);
+            return;
+          }
+          for (const filePath of res.filePaths) {
+            const url = '<%= subPath %>api/download/' + filePath;
+            const iframe = document.createElement("iframe");
+            iframe.style.display = "none"; // 防止影响页面
+            iframe.style.height = 0; // 防止影响页面
+            iframe.src = url;
+            document.body.appendChild(iframe); // 这一行必须，iframe挂在到dom树上才会发请求
+            // 5分钟之后删除（onload方法对于下载链接不起作用，就先抠脚一下吧）
+            setTimeout(() => {
+              iframe.remove();
+            }, 5 * 60 * 1000);
+          }
+        }
+      });
+    });
+
+    $('#example_vcard').click(function () {
+      window.location.href = '<%= subPath %>api/download/example_vcard.xlsx';
     })
   </script>
 </body>

@@ -1,3 +1,5 @@
+const path = require('path');
+
 function color(s, type) {
   const types = {
     red: ['\x1B[1;31m', '\x1B[0m'],
@@ -12,4 +14,11 @@ function color(s, type) {
   return types[type][0] + s + types[type][1];
 }
 
+function getFileName(filePath) {
+  const basename = path.basename(filePath);
+  const extname = path.extname(filePath);
+  return basename.split(extname)[0] || '';
+}
+
 exports.color = color;
+exports.getFileName = getFileName;
