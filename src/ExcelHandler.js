@@ -3,6 +3,7 @@
 const Excel = require('exceljs');
 const path = require('path');
 const debug = require('debug')('matrix:excel');
+const moment = require('moment');
 
 class ExcelHandler {
   constructor() {
@@ -93,8 +94,12 @@ class ExcelHandler {
       const datum = {};
       row.forEach((cell, index) => {
         const key = keyMap[index];
+        const columnCfg = columns.find(column => column.key === key);
         if (!key) return;
-        datum[key] = cell;
+        // 如果值是 number 型的日期，则转化为标准日期格式
+        if (columnCfg.type === 'numberDate') {
+          datum[key] = moment('1900-01-01').add(parseInt(cell - 2), 'days');
+        } else datum[key] = cell;
       });
       results.push(datum);
     }
