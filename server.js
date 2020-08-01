@@ -123,7 +123,7 @@ router.get('/api/download/:name', async ctx => {
   setTimeout(() => {
     const filename = path.basename(filePath);
     // 如果是范例，则不删除文件，其它的下载完成后，删除文件
-    if (['example.xlsx', 'example_vcard.xlsx'].includes(filename)) return;
+    if (['example.xlsx', 'example_vcard.xlsx', '选择题❤️猪猪.apkg'].includes(filename)) return;
     fs.unlink(filePath, () => {
       console.log('文件' + filePath + ': 移除成功');
     });
